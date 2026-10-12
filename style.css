@@ -1,0 +1,402 @@
+.bb {
+  /* 공사장 팔레트 */
+  --asphalt: #232527;
+  --steel: #16181A;
+  --concrete: #6F7377;
+  --concrete-dark: #575B5F;
+  --hazard: #FFB703;
+  --ink: #141414;
+  --text: #F2F0EA;
+  --muted: #B9B6AC;
+
+  --board-size: min(90vw, 380px);
+  --mini: calc(var(--board-size) / 8 * 0.48);
+
+  position: relative;
+  box-sizing: border-box;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 34px 16px 40px;
+  border-radius: 6px;
+  background:
+    radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / 6px 6px,
+    var(--asphalt);
+  color: var(--text);
+  font-family: "Black Han Sans", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 위아래 안전 띠 */
+.bb::before,
+.bb::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: repeating-linear-gradient(-45deg, var(--hazard) 0 14px, var(--ink) 14px 28px);
+}
+.bb::before { top: 0; }
+.bb::after { bottom: 0; }
+
+.bb *, .bb *::before, .bb *::after { box-sizing: border-box; }
+
+/* ---------- 상단: 현장 표지판 ---------- */
+.bb-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: var(--board-size);
+  margin: 0 auto 16px;
+}
+.bb-best {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--hazard);
+  font-family: "Saira Stencil One", "Black Han Sans", sans-serif;
+  font-size: 20px;
+}
+.bb-score {
+  position: relative;
+  min-width: 120px;
+  padding: 6px 18px 4px;
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  background:
+    radial-gradient(circle at 8px 8px, #8a6300 2.5px, transparent 3px),
+    radial-gradient(circle at calc(100% - 8px) 8px, #8a6300 2.5px, transparent 3px),
+    radial-gradient(circle at 8px calc(100% - 8px), #8a6300 2.5px, transparent 3px),
+    radial-gradient(circle at calc(100% - 8px) calc(100% - 8px), #8a6300 2.5px, transparent 3px),
+    var(--hazard);
+  color: var(--ink);
+  font-family: "Saira Stencil One", "Black Han Sans", sans-serif;
+  font-size: 42px;
+  line-height: 1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 4px 0 var(--steel);
+}
+.bb-restart {
+  justify-self: end;
+  width: 42px;
+  height: 42px;
+  border: 3px solid var(--ink);
+  border-radius: 50% 50% 8px 8px; /* 안전모 모양 */
+  background: var(--hazard);
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--steel);
+}
+.bb-restart:hover { filter: brightness(1.08); }
+.bb-restart:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--steel); }
+.bb button:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+
+/* ---------- 보드: 철골 프레임 + 콘크리트 ---------- */
+.bb-board-wrap {
+  position: relative;
+  width: var(--board-size);
+  margin: 0 auto;
+}
+.bb-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 3px;
+  padding: 10px;
+  border: 4px solid var(--steel);
+  border-radius: 3px;
+  background:
+    radial-gradient(circle at 8px 8px, #4a4e52 2.5px, transparent 3px),
+    radial-gradient(circle at calc(100% - 8px) 8px, #4a4e52 2.5px, transparent 3px),
+    radial-gradient(circle at 8px calc(100% - 8px), #4a4e52 2.5px, transparent 3px),
+    radial-gradient(circle at calc(100% - 8px) calc(100% - 8px), #4a4e52 2.5px, transparent 3px),
+    linear-gradient(#34383C, #2B2E31);
+  box-shadow:
+    inset 0 0 0 2px #3F4448,
+    0 6px 0 var(--steel);
+  aspect-ratio: 1;
+}
+.bb-cell {
+  position: relative;
+  border-radius: 2px;
+  background:
+    radial-gradient(rgba(0, 0, 0, 0.12) 1px, transparent 1.5px) 0 0 / 5px 5px,
+    var(--concrete-dark);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.35);
+}
+
+/* 블록: 볼트로 고정한 철판 */
+.bb-cell.filled,
+.bb-block {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.38) 0 7%, transparent 9%),
+    radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.38) 0 7%, transparent 9%),
+    radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.38) 0 7%, transparent 9%),
+    radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.38) 0 7%, transparent 9%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 55%),
+    var(--c);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
+/* 놓을 위치 미리보기 */
+.bb-cell.preview {
+  background: var(--c);
+  opacity: 0.45;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+/* 놓으면 지워질 줄 */
+.bb-cell.will-clear {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0, 0, 0, 0.38) 0 7%, transparent 9%),
+    radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.38) 0 7%, transparent 9%),
+    var(--c);
+  opacity: 1;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.45),
+    0 0 0 2px var(--hazard),
+    0 0 10px var(--hazard);
+}
+
+/* 놓을 때: 위에서 쿵 */
+.bb-cell.placed { animation: bb-place 0.2s cubic-bezier(.3,1.6,.6,1); }
+@keyframes bb-place {
+  from { transform: translateY(-6px) scale(0.9); }
+  to   { transform: translateY(0) scale(1); }
+}
+
+/* 지워질 때: 부서져서 떨어짐 */
+.bb-cell.pop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: var(--pc);
+  animation: bb-pop 0.42s ease-in forwards;
+}
+@keyframes bb-pop {
+  0%   { transform: translateY(0) rotate(0); opacity: 1; filter: brightness(1.5); }
+  100% { transform: translateY(18px) rotate(35deg) scale(0.3); opacity: 0; }
+}
+
+/* ---------- 점수 / 콤보 알림 ---------- */
+.bb-toast {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-align: center;
+  font-family: "Saira Stencil One", "Black Han Sans", sans-serif;
+  font-size: 40px;
+  color: var(--hazard);
+  -webkit-text-stroke: 1.5px var(--ink);
+  text-shadow: 0 4px 0 var(--ink);
+  opacity: 0;
+  white-space: nowrap;
+}
+.bb-toast small {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 12px;
+  background: var(--ink);
+  color: var(--hazard);
+  font-family: "Black Han Sans", sans-serif;
+  font-size: 20px;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+}
+.bb-toast.show { animation: bb-toast 0.9s ease-out; }
+@keyframes bb-toast {
+  0%   { opacity: 0; transform: translate(-50%, -30%) scale(0.7); }
+  20%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+  70%  { opacity: 1; transform: translate(-50%, -60%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -80%) scale(1); }
+}
+
+/* ---------- 블록 트레이: 자재 적재장 ---------- */
+.bb-tray {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: var(--board-size);
+  height: calc(var(--mini) * 5 + 28px);
+  margin: 22px auto 0;
+  border-top: 3px dashed rgba(255, 183, 3, 0.45);
+  padding-top: 6px;
+  touch-action: none;
+}
+.bb-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  transition: opacity 0.15s;
+}
+.bb-slot.lifted { opacity: 0; }
+.bb-slot.blocked { opacity: 0.3; cursor: not-allowed; filter: grayscale(0.7); }
+
+.bb-piece {
+  --s: var(--mini);
+  display: grid;
+  gap: 2px;
+  pointer-events: none;
+}
+.bb-piece .bb-block { width: var(--s); height: var(--s); }
+
+/* 드래그 중인 블록: 크레인으로 들어 올린 느낌 */
+.bb-ghost {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  display: grid;
+  pointer-events: none;
+  touch-action: none;
+  filter: drop-shadow(0 12px 8px rgba(0, 0, 0, 0.5));
+}
+.bb-ghost .bb-block { width: var(--s); height: var(--s); }
+
+/* ---------- 게임 오버: 작업 중지 표지판 ---------- */
+.bb-over {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 20, 20, 0.8);
+  animation: bb-fade 0.3s ease-out;
+  z-index: 5;
+}
+.bb-over[hidden] { display: none; }
+@keyframes bb-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.bb-over-card {
+  width: min(80%, 300px);
+  padding: 22px 20px 24px;
+  border: 10px solid transparent;
+  border-image: repeating-linear-gradient(-45deg, var(--hazard) 0 10px, var(--ink) 10px 20px) 10;
+  background: var(--hazard);
+  color: var(--ink);
+  text-align: center;
+  animation: bb-swing 0.5s ease-out;
+}
+@keyframes bb-swing {
+  0%   { transform: rotate(-8deg) translateY(-30px); }
+  60%  { transform: rotate(3deg); }
+  100% { transform: rotate(0); }
+}
+.bb-over-title { margin: 0; font-size: 34px; line-height: 1.1; }
+.bb-over-sub { margin: 6px 0 14px; font-size: 16px; }
+.bb-over-score { margin: 0; font-size: 18px; }
+.bb-over-score strong {
+  display: block;
+  font-family: "Saira Stencil One", "Black Han Sans", sans-serif;
+  font-size: 60px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+.bb-over-best {
+  display: inline-block;
+  margin: 6px 0 0;
+  padding: 2px 10px;
+  background: var(--ink);
+  color: var(--hazard);
+}
+.bb-over-best[hidden] { display: none; }
+.bb-again {
+  display: block;
+  margin: 18px auto 0;
+  padding: 12px 30px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--ink);
+  color: var(--hazard);
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #000;
+}
+.bb-again:hover { filter: brightness(1.3); }
+.bb-again:active { transform: translateY(2px); box-shadow: 0 2px 0 #000; }
+
+/* ---------- 스탬프 화면: 작업 확인서 + 도장 ---------- */
+.bb-stamp-card {
+  position: relative;
+  width: min(82%, 300px);
+  padding: 28px 20px 24px;
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(transparent 0 27px, rgba(0, 0, 0, 0.06) 27px 28px),
+    #F3EFE4;
+  color: var(--ink);
+  text-align: center;
+  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.35);
+  animation: bb-swing 0.5s ease-out;
+}
+.bb-stamp-card::before {
+  /* 클립보드 집게 */
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  width: 90px;
+  height: 22px;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  background: linear-gradient(#9AA3AB, #6B7278);
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+}
+.bb-stamp-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 12px;
+  border: 5px solid #C62828;
+  border-radius: 50%;
+  outline: 2px solid #C62828;
+  outline-offset: -12px;
+  color: #C62828;
+  font-size: 34px;
+  line-height: 1;
+  transform: rotate(-14deg);
+  opacity: 0.9;
+  animation: bb-stamp 0.45s 0.35s cubic-bezier(.2,1.4,.5,1) both;
+}
+.bb-stamp-mark small {
+  margin-top: 4px;
+  font-family: "Saira Stencil One", "Black Han Sans", sans-serif;
+  font-size: 16px;
+}
+@keyframes bb-stamp {
+  0%   { transform: rotate(-14deg) scale(2.4); opacity: 0; }
+  60%  { transform: rotate(-14deg) scale(0.92); opacity: 0.95; }
+  100% { transform: rotate(-14deg) scale(1); opacity: 0.9; }
+}
+.bb-stamp-title { margin: 0; font-size: 30px; line-height: 1.15; }
+.bb-stamp-sub {
+  display: inline-block;
+  margin: 10px 0 0;
+  padding: 4px 14px;
+  background: var(--hazard);
+  font-size: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bb-stamp-card,
+  .bb-stamp-mark { animation-duration: 0.01s; }
+  .bb-cell.placed,
+  .bb-cell.pop::after,
+  .bb-toast.show,
+  .bb-over,
+  .bb-over-card { animation-duration: 0.01s; }
+}

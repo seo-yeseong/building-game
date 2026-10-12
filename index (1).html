@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>블록 공사장</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Saira+Stencil+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="bb-game" class="bb">
+    <header class="bb-top">
+      <div class="bb-best" title="최고 점수">
+        <span aria-hidden="true">⛑️</span>
+        <span id="bb-best">0</span>
+      </div>
+      <div class="bb-score" id="bb-score" aria-live="polite">0</div>
+      <button class="bb-restart" id="bb-restart" aria-label="다시 시작">↻</button>
+    </header>
+
+    <div class="bb-board-wrap">
+      <div class="bb-board" id="bb-board"></div>
+      <div class="bb-toast" id="bb-toast"></div>
+    </div>
+
+    <div class="bb-tray" id="bb-tray">
+      <div class="bb-slot" data-i="0"></div>
+      <div class="bb-slot" data-i="1"></div>
+      <div class="bb-slot" data-i="2"></div>
+    </div>
+
+    <div class="bb-over" id="bb-over" hidden>
+      <div class="bb-over-card">
+        <p class="bb-over-title">작업 중지</p>
+        <p class="bb-over-sub">더 놓을 자리가 없어요</p>
+        <p class="bb-over-score">점수 <strong id="bb-final">0</strong></p>
+        <p class="bb-over-best" id="bb-newbest" hidden>최고 기록 갱신!</p>
+        <button class="bb-again" id="bb-again">다시 착공하기</button>
+      </div>
+    </div>
+
+    <div class="bb-over" id="bb-stamp" hidden>
+      <div class="bb-stamp-card">
+        <div class="bb-stamp-mark" aria-hidden="true">
+          <span>완공</span>
+          <small id="bb-stamp-mark-score">100점</small>
+        </div>
+        <p class="bb-stamp-title"><span id="bb-stamp-score">100</span>점 달성!</p>
+        <p class="bb-stamp-sub">스탬프를 받으세요</p>
+        <button class="bb-again" id="bb-stamp-ok">계속 하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
